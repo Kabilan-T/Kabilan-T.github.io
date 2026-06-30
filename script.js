@@ -12,8 +12,8 @@ const projects = [
       '<strong>Approach:</strong> An LSTM model predicts expected leg forces from a rolling window of past force and desired foot position signals. A phase-aware PID controller compares predicted vs. measured forces and applies corrective offsets to foot placement — only during appropriate stance/swing phases to avoid inter-leg interference. Trained and validated in MARS simulation across multiple terrain inclinations, then deployed on the real CREX hexapod robot.',
       { img: 'assets/thesis/system_architecture.png', caption: 'AdaptiveLegController system architecture — LSTM force prediction feeds into phase-aware PID for per-leg foot offset correction' },
       '<strong>Conclusion:</strong> The adaptive controller significantly reduced body tilt and recovered faster from unexpected foot contact forces. The obstacle traversal experiments clearly show the difference — without control the body tilts sharply; with control it stays stable.',
-      { img: 'assets/thesis/crex_on_obstacle_no_control.png', caption: 'Without adaptive control — body tilts sharply as leg hits the obstacle' },
-      { img: 'assets/thesis/crex_on_obstacle_with_control.png', caption: 'With adaptive control — foot placement corrected, body remains level' },
+      { video: 'https://drive.google.com/file/d/1pbXB6qHVTHuQH08Qq8qOgqq7_5LJ8mvn/preview', ratio: '6120/1560', caption: 'Real robot — side-by-side comparison: without adaptive control (left) vs with adaptive control (right), obstacle introduced during walking' },
+      { video: 'https://drive.google.com/file/d/18mPS2sS9o2-IUT-KFhnDsfM2HCAWQFJR/preview', ratio: '1868/1066', caption: 'Simulation — live force plots and control offsets during obstacle traversal, showing how the controller corrects foot placement in real time' },
       { img: 'assets/thesis/body_orientation_comparison.png', caption: 'Body orientation — orange: no adaptive control (obstacle), green: with adaptive control, blue: baseline (no obstacle)' },
     ],
     images: ['assets/thesis/thumbnail.png'],
@@ -38,7 +38,8 @@ const projects = [
       '<strong>Approach:</strong> Evolutionary optimization (via BOLeRo) iteratively tunes NeuralSoil neural network weights. Ground truth trajectories are generated in MARS using an existing trained model; a randomly initialized model is optimized to match them. Trajectory similarity — using DTW or Curve Length as fitness metrics — drives the loop. Evaluated across multiple gait configurations (tripod, four-legged, five-legged walking).',
       { img: 'assets/rnd/bolero_architecture.png', caption: 'BOLeRo optimization loop — evolutionary optimizer tunes NeuralSoil weights using trajectory similarity as fitness' },
       '<strong>Conclusion:</strong> The optimization loop converged successfully across gait configurations. DTW proved a more effective fitness metric than Curve Length. The approach validates that ground interaction model parameters can be recovered without terrain measurements, using only trajectory comparison.',
-      { img: 'assets/rnd/simulation_snapshot.png', caption: 'MARS simulation — ground truth vs. optimized GIM trajectory comparison at 9s' },
+      { video: 'https://drive.google.com/file/d/1uzv3M4PKGhx8iW876SAfrR0CKvg7S0rT/preview', ratio: '1600/1080', caption: 'Before optimization — ground truth (top) vs unoptimized GIM (bottom): legs interact differently with the terrain' },
+      { video: 'https://drive.google.com/file/d/1jZ2zVI1l9qCyc1nHvq8YMKWEjPysuTwE/preview', ratio: '1600/1080', caption: 'After optimization — ground truth (top) vs optimized GIM (bottom): trajectories closely match' },
       { img: 'assets/rnd/positional_error_comparison.png', caption: 'Positional error comparison across gait configurations and fitness metrics' },
     ],
     images: ['assets/rnd/thumbnail.png'],
@@ -82,6 +83,7 @@ const projects = [
       '<strong>Problem:</strong> A terrain classifier is only as good as the sensor data it receives — and that data quality depends on how the robot interacts with the terrain. The question: what robot behavior, with what parameters, produces the most terrain-discriminative sensor signal?',
       '<strong>Approach:</strong> Designed probing behaviors for wheeled robots (a turn-around maneuver with a variable braking factor on one wheel, causing motion perturbations that encode terrain properties) and legged robots (a leg-scraping motion whose force response pattern reveals terrain type). Used parameter optimizers running parallel simulations across terrain types (soil, gravel, concrete) to find the parameter set maximizing difference in response between terrains. Validated on real robots across multiple experimental iterations. Also contributed to dataset preparation (log processing, timestamp alignment) and is named contributor on the published dataset.',
       '<strong>Conclusion:</strong> Optimized probing parameters significantly improved terrain discriminability compared to arbitrary motion. Results contributed to the NoStrandAMust dataset published on Zenodo.',
+      { video: 'https://drive.google.com/file/d/10Vd0QuVeDhTWV7VudAQNanF0xvqdRcMP/preview', ratio: '1864/1170', caption: 'Parallel simulations — optimizer evaluating probing behavior parameters across terrain types simultaneously' },
     ],
     images: ['assets/nostrand/thumbnail.jpg'],
     tags: ['Python', 'Parameter Optimization', 'Terrain Classification', 'Simulation'],
@@ -103,6 +105,7 @@ const projects = [
       '<strong>Problem:</strong> Simulation-learned behavior maps (parameter set → expected performance) cannot be trusted directly on a real robot, and exhaustively testing every parameter set is infeasible. How do you efficiently validate which parts of the map transfer to reality with minimal real-robot evaluations?',
       '<strong>Approach:</strong> Used SOGPR (Sparse Online Gaussian Process Regression) as an active learner — at each step it selects the parameter set with highest uncertainty, evaluates it on the robot, and updates the confidence model, propagating confidence to neighboring points in the parameter space. Evaluation runs via a behavior-tree loop: the robot traverses three waypoints (A→B→C), switching the active parameter set at each waypoint by selectively restarting ROCK middleware components — no full robot restart required. Developed and validated the full workflow in simulation.',
       '<strong>Conclusion:</strong> The active learning loop reduced the number of real-robot evaluations needed to build a confident behavior map compared to random or grid sampling. Real-robot deployment was carried out by the project team using this tool.',
+      { video: 'https://drive.google.com/file/d/1lRrSGs5BvbSA3-68xxps6PwyCwhVqp43/preview', ratio: '2496/1354', caption: 'Simulation — SOGPR active learning loop: parameter updates and confidence propagation across the behavior map' },
     ],
     images: ['assets/persim/thumbnail.jpg'],
     tags: ['Python', 'SOGPR', 'Gaussian Process', 'BehaviorTree.CPP', 'ROCK', 'MARS'],
@@ -141,6 +144,7 @@ const projects = [
       '<strong>Problem:</strong> In a multi-robot planetary exploration scenario, a rappelling robot must execute a complex mission sequence — approach, transition to rappel mode, active descent, landing — each phase with different speed limits and configuration requirements.',
       '<strong>Approach:</strong> Implemented a state machine for the rappelling robot (Coyote III) covering all mission phases with phase-specific configurations such as reduced descent speed. Assisted with simulation setup and testing. This was the first project at DFKI (~4–5 months), providing foundational experience with the ROS/ROCK development environment.',
       '<strong>Conclusion:</strong> The state machine was integrated into the Coyote III robot and demonstrated in simulation as part of the CoRob-X multi-robot planetary exploration scenario alongside the surface robot SherpaTT.',
+      { video: 'https://drive.google.com/file/d/1IE-43-MvhJJk9w-EfEGsqIy6N98p86tk/preview', ratio: '1562/944', caption: 'Simulation — Coyote III tethered descent into crater skylight, executing the mission state machine phases' },
     ],
     images: ['assets/corobx/thumbnail.jpg'],
     tags: ['ROS', 'Python', 'State Machine', 'Simulation', 'ROCK'],
@@ -180,7 +184,8 @@ const projects = [
     fullDesc: [
       '<strong>Problem:</strong> A three-axis Cartesian robot had no user interface for CAD-to-motion execution — operators needed a way to load designs and monitor execution without manual G-code authoring.',
       '<strong>Approach:</strong> Developed a PLC module in CODESYS (Structured Text) that parses CAD files, converts geometry to G-code tool paths, and drives the robot through the path. Built an HMI for operators to load files, trigger execution, and monitor end-effector position in real time on the deployed system.',
-      '<strong>Conclusion:</strong> Delivered a working PLC/HMI system enabling CAD-to-motion automation on the Cartesian robot — demonstrated in the linked report and demo video.',
+      '<strong>Conclusion:</strong> Delivered a working PLC/HMI system enabling CAD-to-motion automation on the Cartesian robot.',
+      { video: 'https://drive.google.com/file/d/1OuBqCLsnA2asx56dQH-sYA42_RHz9PFG/preview', caption: 'Demo — CAD-to-G-code execution on the three-axis Cartesian robot' },
     ],
     images: [],
     tags: ['CODESYS', 'Structured Text (ST)', 'PLC', 'HMI', 'G-code'],
@@ -237,8 +242,10 @@ const projects = [
       '<strong>Problem:</strong> Evaluating trajectory repeatability for a mobile robot required manually collecting, saving, and comparing GPS data across multiple runs — no dedicated tool existed.',
       '<strong>Approach:</strong> Built a PyQt5 desktop application that receives position data from indoor GPS beacons mounted on a mobile robot, visualizes the trajectory live, and supports saving and overlaying multiple runs for repeatability comparison.',
       '<strong>Conclusion:</strong> The tool simplified trajectory benchmarking, enabling systematic evaluation of mobile robot path repeatability across multiple experimental runs.',
+      { img: 'assets/traj/trajectory.png', caption: 'Trajectory Record tab — live visualization of the robot path as GPS data streams in' },
+      { img: 'assets/traj/compare.png', caption: 'Compare tab — overlay of multiple recorded runs for repeatability evaluation' },
     ],
-    images: [],
+    images: ['assets/traj/waypoint.png'],
     tags: ['Python', 'PyQt5', 'Indoor GPS'],
     links: [
       { label: 'Repository', url: 'https://github.com/Kabilan-T/GUI_for_Trajectory_Benchmarking_with_Indoor_GPS' },
@@ -273,6 +280,7 @@ const projects = [
       '<strong>Problem:</strong> Search-and-rescue operations in confined spaces — rubble, pipes, collapsed structures — are inaccessible to conventional wheeled or legged robots.',
       '<strong>Approach:</strong> Designed and built a modular snake robot capable of inchworm and sidewinding locomotion. Controlled via Arduino Uno over Bluetooth, with a camera for remote vision and a gripper for manipulation in rescue scenarios.',
       '<strong>Conclusion:</strong> Demonstrated functional locomotion modes and remote-controlled operation in confined test environments, validating the design as a low-cost rescue robot prototype.',
+      { video: 'https://drive.google.com/file/d/1DlqQKp5wM7AEHyRcJIS1NxDxvsJ48NR1/preview', ratio: '1920/1080', caption: 'Demo — inchworm and sidewinding locomotion modes, Bluetooth-controlled with camera and gripper' },
     ],
     images: [],
     tags: ['Arduino', 'C/C++', 'Embedded Systems', 'Bluetooth', 'Mechanical Design'],
@@ -353,11 +361,11 @@ function openModal(p) {
     ? `<div class="modal-section-label">Links</div><div class="modal-links">${p.links.map(l => `<a class="modal-link-btn" href="${l.url}" target="_blank">↗ ${l.label}</a>`).join('')}</div>`
     : '';
 
-  const descHtml = p.fullDesc.map(item =>
-    typeof item === 'string'
-      ? `<p>${item}</p>`
-      : `<figure class="modal-inline-img"><img src="${item.img}" alt="${item.caption || ''}" />${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`
-  ).join('');
+  const descHtml = p.fullDesc.map(item => {
+    if (typeof item === 'string') return `<p>${item}</p>`;
+    if (item.video) return `<figure class="modal-inline-video"><iframe src="${item.video}" style="aspect-ratio:${item.ratio || '1360/696'}" allow="autoplay" allowfullscreen></iframe>${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
+    return `<figure class="modal-inline-img"><img src="${item.img}" alt="${item.caption || ''}" />${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
+  }).join('');
 
   content.innerHTML = `
     <span class="modal-badge">${p.badge}</span>

@@ -335,7 +335,7 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: 14px;
   width: 100%;
-  max-width: 720px;
+  max-width: min(1100px, calc(100vw - 48px));
   margin: auto;
   position: relative;
   box-shadow: 0 24px 64px rgba(0,0,0,0.6);
@@ -450,6 +450,26 @@ a:hover { text-decoration: underline; }
 }
 
 .modal-inline-img figcaption {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.modal-inline-video {
+  margin: 18px 0;
+}
+
+.modal-inline-video iframe {
+  width: 100%;
+  aspect-ratio: 1360 / 696;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.modal-inline-video figcaption {
   font-size: 0.73rem;
   color: var(--text-muted);
   text-align: center;
