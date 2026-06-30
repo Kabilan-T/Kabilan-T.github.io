@@ -9,9 +9,14 @@ const projects = [
     shortDesc: 'LSTM-based force prediction with a phase-aware PID controller for adaptive foot placement on uneven terrain.',
     fullDesc: [
       '<strong>Problem:</strong> Vision-based perception is unreliable on uneven terrain — noise, occlusions, and latency cause discrepancies between planned and actual foot contact. Instead of vision, the system uses force-based feedback: predict the expected force profile during walking, then correct foot placement when measured forces deviate.',
-      '<strong>Approach:</strong> An LSTM model predicts expected leg forces from a rolling window of past force and desired foot position signals. A phase-aware PID controller compares predicted vs. measured forces and applies corrective offsets to foot placement — only during appropriate stance/swing phases to avoid inter-leg interference. Trained and validated in MARS simulation, then tested on the real CREX robot.',
+      '<strong>Approach:</strong> An LSTM model predicts expected leg forces from a rolling window of past force and desired foot position signals. A phase-aware PID controller compares predicted vs. measured forces and applies corrective offsets to foot placement — only during appropriate stance/swing phases to avoid inter-leg interference. Trained and validated in MARS simulation across multiple terrain inclinations, then deployed on the real CREX hexapod robot.',
+      { img: 'assets/thesis/system_architecture.png', caption: 'AdaptiveLegController system architecture — LSTM force prediction feeds into phase-aware PID for per-leg foot offset correction' },
+      '<strong>Conclusion:</strong> The adaptive controller significantly reduced body tilt and recovered faster from unexpected foot contact forces. The obstacle traversal experiments clearly show the difference — without control the body tilts sharply; with control it stays stable.',
+      { img: 'assets/thesis/crex_on_obstacle_no_control.png', caption: 'Without adaptive control — body tilts sharply as leg hits the obstacle' },
+      { img: 'assets/thesis/crex_on_obstacle_with_control.png', caption: 'With adaptive control — foot placement corrected, body remains level' },
+      { img: 'assets/thesis/body_orientation_comparison.png', caption: 'Body orientation — orange: no adaptive control (obstacle), green: with adaptive control, blue: baseline (no obstacle)' },
     ],
-    images: [],
+    images: ['assets/thesis/thumbnail.png'],
     tags: ['Python', 'C++', 'TensorFlow', 'ONNX', 'MARS', 'PyQt5'],
     links: [
       { label: 'Project Report', url: 'https://drive.google.com/file/d/1yFGM4T35UzVHh3ak8GYPqcuE9I-uvyPh/view' },
@@ -29,10 +34,14 @@ const projects = [
     title: 'Black-Box Optimization of the Ground Interaction Model for Legged Robots',
     shortDesc: 'Evolutionary optimization of a NeuralSoil ground interaction model using only robot trajectory similarity — no terrain measurements.',
     fullDesc: [
-      '<strong>Problem:</strong> Physics-based ground interaction models require detailed terrain properties (stiffness, friction, sinkage) — hard to generalize. The goal: can a NeuralSoil ground interaction model be optimized purely by comparing robot trajectory outcomes, with no terrain measurements or labeled data?',
-      '<strong>Approach:</strong> Evolutionary optimization (via BOLeRo) iteratively tunes the NeuralSoil neural network weights. Ground truth trajectories are generated in MARS using an existing trained model; a randomly initialized model is optimized to match them. Trajectory similarity — using DTW or Curve Length as fitness metrics — drives the optimization loop. Evaluated across multiple gait configurations (tripod, four-legged, five-legged walking).',
+      '<strong>Problem:</strong> Physics-based ground interaction models require detailed terrain properties (stiffness, friction, sinkage) that are hard to measure and generalize. Can a NeuralSoil ground interaction model be optimized purely by comparing robot trajectory outcomes, with no terrain measurements or labeled data?',
+      '<strong>Approach:</strong> Evolutionary optimization (via BOLeRo) iteratively tunes NeuralSoil neural network weights. Ground truth trajectories are generated in MARS using an existing trained model; a randomly initialized model is optimized to match them. Trajectory similarity — using DTW or Curve Length as fitness metrics — drives the loop. Evaluated across multiple gait configurations (tripod, four-legged, five-legged walking).',
+      { img: 'assets/rnd/bolero_architecture.png', caption: 'BOLeRo optimization loop — evolutionary optimizer tunes NeuralSoil weights using trajectory similarity as fitness' },
+      '<strong>Conclusion:</strong> The optimization loop converged successfully across gait configurations. DTW proved a more effective fitness metric than Curve Length. The approach validates that ground interaction model parameters can be recovered without terrain measurements, using only trajectory comparison.',
+      { img: 'assets/rnd/simulation_snapshot.png', caption: 'MARS simulation — ground truth vs. optimized GIM trajectory comparison at 9s' },
+      { img: 'assets/rnd/positional_error_comparison.png', caption: 'Positional error comparison across gait configurations and fitness metrics' },
     ],
-    images: [],
+    images: ['assets/rnd/thumbnail.png'],
     tags: ['Python', 'C++', 'PSO', 'CMA-ES', 'MARS', 'BOLeRo', 'Bagel'],
     links: [
       { label: 'Project Report', url: 'https://drive.google.com/file/d/1A-c0LXvLBCRzy3RhI7E-0RtdxnZAHhBF/view' },
@@ -50,12 +59,12 @@ const projects = [
     title: 'FieldCoBots — LLM Agents for Human-Robot Coordination',
     shortDesc: 'LangGraph-based tool-calling agents embedded in an agricultural robot for natural language task coordination.',
     fullDesc: [
-      'Responsible for LLM integration within the project\'s hybrid team coordination system — a platform for planning, coordination, and communication between human workers and robots in agricultural environments.',
-      'Developed a LangGraph-based tool-calling agent embedded in the robot — a human gives it natural language instructions and it interprets commands and triggers robot actions (gripper control, operation modes) via tool calls.',
-      'Developed a second LangGraph-based agent that interfaces with the project\'s shared task blackboard — takes natural language requests, converts them into structured task entries, posts them to the blackboard, asks for missing information when needed, and notifies the user of task status updates.',
-      'Designed the codebase modularly so that subagents are reusable across both agents. Started with local LLMs for on-device inference; switched to OpenAI API after local models proved too slow for the required responsiveness.',
+      '<strong>Problem:</strong> Agricultural human-robot teams need a natural language interface for task coordination — operators should be able to instruct and query robots without programming expertise or structured command interfaces.',
+      '<strong>Approach:</strong> Developed two LangGraph tool-calling agents. The first is embedded in the robot: it receives natural language instructions, interprets them, and triggers robot actions (gripper control, operation modes) via tool calls. The second interfaces with the project\'s shared task blackboard: it converts natural language requests into structured task entries, asks for missing information when needed, posts tasks, and notifies the user of status updates. Subagents were designed to be reusable across both. Switched from local LLMs to OpenAI API after local models proved too slow for the required responsiveness.',
+      '<strong>Conclusion:</strong> The agents were integrated into the SHIVAA agricultural robot, enabling operators to coordinate with the robot using spoken or typed natural language — reducing task entry friction in mixed human-robot teams.',
+      { img: 'assets/fieldcobots/infographic.png', caption: 'FieldCoBots concept — coordinated human-robot team with digital field management and shared task blackboard' },
     ],
-    images: [],
+    images: ['assets/fieldcobots/thumbnail.png'],
     tags: ['LangGraph', 'LangChain', 'OpenAI API', 'Python', 'Voice I/O'],
     links: [
       { label: 'FieldCoBots Project', url: 'https://robotik.dfki-bremen.de/de/forschung/projekte/fieldcobots' },
@@ -70,11 +79,11 @@ const projects = [
     title: 'NoStrandAMust — Terrain Classification via Probing Behaviors',
     shortDesc: 'Designed probing behaviors and used parameter optimizers to maximize terrain discriminability across soil, gravel, and concrete.',
     fullDesc: [
-      'Contributed to dataset preparation: processed experiment log files, resolved timestamp mismatches between video recordings and logs. Named contributor on the published dataset.',
-      '<strong>Probing behaviors:</strong> For wheeled robots — a turn-around maneuver with a variable braking factor on one wheel, causing motion perturbations that encode terrain properties. For legged robots — a leg-scraping motion whose force/response pattern reveals terrain type.',
-      'Used parameter optimizers to find the best version of these behaviors: ran parallel simulations across terrain types (soil, gravel, concrete) and optimized for the parameter set that maximizes difference between terrain responses. Validated resulting parameters on real robots over several experimental iterations.',
+      '<strong>Problem:</strong> A terrain classifier is only as good as the sensor data it receives — and that data quality depends on how the robot interacts with the terrain. The question: what robot behavior, with what parameters, produces the most terrain-discriminative sensor signal?',
+      '<strong>Approach:</strong> Designed probing behaviors for wheeled robots (a turn-around maneuver with a variable braking factor on one wheel, causing motion perturbations that encode terrain properties) and legged robots (a leg-scraping motion whose force response pattern reveals terrain type). Used parameter optimizers running parallel simulations across terrain types (soil, gravel, concrete) to find the parameter set maximizing difference in response between terrains. Validated on real robots across multiple experimental iterations. Also contributed to dataset preparation (log processing, timestamp alignment) and is named contributor on the published dataset.',
+      '<strong>Conclusion:</strong> Optimized probing parameters significantly improved terrain discriminability compared to arbitrary motion. Results contributed to the NoStrandAMust dataset published on Zenodo.',
     ],
-    images: [],
+    images: ['assets/nostrand/thumbnail.jpg'],
     tags: ['Python', 'Parameter Optimization', 'Terrain Classification', 'Simulation'],
     links: [
       { label: 'NoStrandAMust Project', url: 'https://robotik.dfki-bremen.de/de/forschung/projekte/nostrandamust' },
@@ -91,12 +100,11 @@ const projects = [
     title: 'PerSim — Iterative Simulation-to-Real Validation with SOGPR',
     shortDesc: 'SOGPR-based active learning loop to efficiently validate simulation behavior maps on a real robot with minimal evaluations.',
     fullDesc: [
-      'A behavior map (simulation-learned: parameter set → expected performance) is available, but cannot be trusted directly for the real robot, and testing every parameter set is infeasible.',
-      '<strong>Approach:</strong> SOGPR (Sparse Online Gaussian Process Regression) selects the parameter set with highest uncertainty at each step, evaluates it on the robot, and updates the model — which propagates confidence to neighboring points in the parameter space. Initially all points have equal uncertainty; confidence builds globally with each evaluation.',
-      'Evaluation runs via a behavior-tree loop: the robot traverses three waypoints (A→B→C) in a triangle, with one parameter set active per segment. At each waypoint, the parameter set is switched by selectively stopping and restarting the relevant ROCK middleware components, with no full robot restart required.',
-      'Developed and validated the full workflow in simulation. Real-robot deployment was carried out by the project team using this tool.',
+      '<strong>Problem:</strong> Simulation-learned behavior maps (parameter set → expected performance) cannot be trusted directly on a real robot, and exhaustively testing every parameter set is infeasible. How do you efficiently validate which parts of the map transfer to reality with minimal real-robot evaluations?',
+      '<strong>Approach:</strong> Used SOGPR (Sparse Online Gaussian Process Regression) as an active learner — at each step it selects the parameter set with highest uncertainty, evaluates it on the robot, and updates the confidence model, propagating confidence to neighboring points in the parameter space. Evaluation runs via a behavior-tree loop: the robot traverses three waypoints (A→B→C), switching the active parameter set at each waypoint by selectively restarting ROCK middleware components — no full robot restart required. Developed and validated the full workflow in simulation.',
+      '<strong>Conclusion:</strong> The active learning loop reduced the number of real-robot evaluations needed to build a confident behavior map compared to random or grid sampling. Real-robot deployment was carried out by the project team using this tool.',
     ],
-    images: [],
+    images: ['assets/persim/thumbnail.jpg'],
     tags: ['Python', 'SOGPR', 'Gaussian Process', 'BehaviorTree.CPP', 'ROCK', 'MARS'],
     links: [
       { label: 'PerSim Project', url: 'https://robotik.dfki-bremen.de/de/forschung/projekte/persim' },
@@ -111,11 +119,11 @@ const projects = [
     title: 'ROBDEKON — Behavior Trees for Hazardous Environment Robotics',
     shortDesc: 'Wrapped ROS nodes as behavior tree nodes and built navigation and arm control subtrees for a decontamination robot.',
     fullDesc: [
-      'ARTER is a four-wheeled platform with flexible wheel shafts and a robot arm, used for decontamination tasks in hazardous environments.',
-      'Wrapped ROS nodes as behavior tree nodes and built subtrees for complete tasks: a navigation subtree with a planning node (plans path to the target waypoint) and an execution node (follows the planned path); an arm subtree with a planning node (plans the arm trajectory to the target end-effector position) and an execution node (executes the trajectory). Used MoveIt for arm trajectory planning.',
-      'The resulting BT nodes and subtrees abstract the underlying ROS stack — missions can be composed via the BT GUI by connecting nodes, setting values, and monitoring per-node success/failure during execution. Also set up simulation environments for development and testing.',
+      '<strong>Problem:</strong> Programming complex navigation and manipulation missions for a decontamination robot requires deep ROS expertise. The goal: abstract the underlying stack into composable, reusable behavior tree nodes that can be combined via GUI without modifying robot code.',
+      '<strong>Approach:</strong> Wrapped ROS nodes as BehaviorTree.CPP nodes and built complete subtrees — a navigation subtree (path planning node + path execution node) and an arm subtree (MoveIt trajectory planning + execution). The resulting nodes hide the ROS stack; missions are composed by connecting nodes in the BT GUI, with per-node success/failure visible at runtime. Also set up Gazebo simulation environments for development and testing. ARTER is a four-wheeled platform with flexible wheel shafts and a robot arm, used for decontamination tasks in hazardous environments.',
+      '<strong>Conclusion:</strong> Delivered a library of BT nodes and subtrees enabling the ROBDEKON team to compose and monitor missions via GUI without touching the underlying ROS code.',
     ],
-    images: [],
+    images: ['assets/robdekon/thumbnail.jpg'],
     tags: ['ROS', 'BehaviorTree.CPP', 'MoveIt', 'C++', 'Python', 'Gazebo'],
     links: [
       { label: 'ROBDEKON Project', url: 'https://robotik.dfki-bremen.de/de/forschung/projekte/robdekon' },
@@ -130,11 +138,11 @@ const projects = [
     title: 'CoRob-X — State Machine for Planetary Exploration Robot',
     shortDesc: 'Implemented a mission state machine for a rappelling robot descending into a crater skylight in a multi-robot planetary mission.',
     fullDesc: [
-      'Multi-robot planetary exploration mission: one robot remains on the surface while another rappels into a crater skylight.',
-      'Implemented a state machine for the rappelling robot covering distinct mission phases — approaching the crater, transition to rappel, active descent, reaching the ground — each with phase-specific configurations such as reduced speed. Also assisted with testing and simulation setup.',
-      'This was the first project at DFKI (~4–5 months), providing foundational experience with the development environment and workflows.',
+      '<strong>Problem:</strong> In a multi-robot planetary exploration scenario, a rappelling robot must execute a complex mission sequence — approach, transition to rappel mode, active descent, landing — each phase with different speed limits and configuration requirements.',
+      '<strong>Approach:</strong> Implemented a state machine for the rappelling robot (Coyote III) covering all mission phases with phase-specific configurations such as reduced descent speed. Assisted with simulation setup and testing. This was the first project at DFKI (~4–5 months), providing foundational experience with the ROS/ROCK development environment.',
+      '<strong>Conclusion:</strong> The state machine was integrated into the Coyote III robot and demonstrated in simulation as part of the CoRob-X multi-robot planetary exploration scenario alongside the surface robot SherpaTT.',
     ],
-    images: [],
+    images: ['assets/corobx/thumbnail.jpg'],
     tags: ['ROS', 'Python', 'State Machine', 'Simulation', 'ROCK'],
     links: [
       { label: 'CoRob-X Project', url: 'https://robotik.dfki-bremen.de/en/research/projects/corob-x' },
@@ -152,10 +160,9 @@ const projects = [
     title: 'UAV Software Platform',
     shortDesc: 'Motion tracking, geofencing, and a simulation-based safety monitor for a drone platform at a robotics startup.',
     fullDesc: [
-      'Small startup team operating within the DFKI building. Sole developer on the software side; drones run existing flight controllers. Software runs on Raspberry Pi on top of the flight stack.',
-      'Implemented motion tracking using the Vicon motion capture system available in the DFKI lab.',
-      'Developed geofencing to enforce operational boundaries during flight.',
-      'Ongoing: building a simulation / digital twin to validate scripts before deploying to the real drone, acting as a safety monitor that continuously enforces operational constraints and can intervene to prevent unsafe maneuvers.',
+      '<strong>Problem:</strong> A robotics startup needed software for their UAV platform to enable safe, monitored operation — position tracking, operational boundary enforcement, and a way to validate flight scripts without risking the drone.',
+      '<strong>Approach:</strong> As sole software developer, implemented Vicon motion capture-based position tracking on a Raspberry Pi flight stack for precise indoor feedback. Developed geofencing to enforce operational boundaries. Building a simulation / digital twin to validate scripts before deployment, with a safety monitor layer that can intervene to prevent unsafe maneuvers. Drones run existing flight controllers; all software sits on top of the flight stack.',
+      '<strong>Conclusion:</strong> Delivered a modular software stack enabling monitored drone operation with real-time position awareness and boundary enforcement, reducing risk during early-stage flight testing.',
     ],
     images: [],
     tags: ['Python', 'Raspberry Pi', 'Vicon', 'ROS', 'Simulation'],
@@ -171,8 +178,9 @@ const projects = [
     title: 'PLC/HMI for CAD-to-G-code Cartesian Robot',
     shortDesc: 'PLC software module with HMI to convert CAD files into G-code tool paths for automated execution on a three-axis Cartesian robot.',
     fullDesc: [
-      'Developed a PLC-based software module with an HMI for a three-axis Cartesian robot to convert CAD files into robot-executable G-codes for automated tool path execution.',
-      'The HMI enables operators to load a CAD file, trigger execution, and monitor the end effector position in real time on the deployed system.',
+      '<strong>Problem:</strong> A three-axis Cartesian robot had no user interface for CAD-to-motion execution — operators needed a way to load designs and monitor execution without manual G-code authoring.',
+      '<strong>Approach:</strong> Developed a PLC module in CODESYS (Structured Text) that parses CAD files, converts geometry to G-code tool paths, and drives the robot through the path. Built an HMI for operators to load files, trigger execution, and monitor end-effector position in real time on the deployed system.',
+      '<strong>Conclusion:</strong> Delivered a working PLC/HMI system enabling CAD-to-motion automation on the Cartesian robot — demonstrated in the linked report and demo video.',
     ],
     images: [],
     tags: ['CODESYS', 'Structured Text (ST)', 'PLC', 'HMI', 'G-code'],
@@ -208,8 +216,9 @@ const projects = [
     title: 'Spore Recognition in Microscopic Digital Images',
     shortDesc: 'Two-stage pipeline using blob detection for localization and a CNN for four-class microbial classification.',
     fullDesc: [
-      'Developed a two-stage approach to detect and classify spores in microscopic digital images.',
-      'The first stage uses blob detection for spore localization, while the second stage applies a CNN to classify detected spores into four microbial classes.',
+      '<strong>Problem:</strong> Manual spore counting in microscopic images is tedious and error-prone. The challenge: detect individual spores in cluttered microscope images and classify them by microbial type.',
+      '<strong>Approach:</strong> Two-stage pipeline — blob detection for spore localization, followed by a CNN trained on detected regions for four-class microbial classification.',
+      '<strong>Conclusion:</strong> The pipeline automated spore detection and classification, reducing the need for manual microscopy review across four microbial classes.',
     ],
     images: [],
     tags: ['Python', 'OpenCV', 'TensorFlow', 'Blob Detection', 'CNN'],
@@ -225,8 +234,9 @@ const projects = [
     title: 'GUI for Trajectory Benchmarking with Indoor GPS',
     shortDesc: 'Desktop tool for tracking, visualizing, and comparing mobile robot trajectories using indoor GPS beacons.',
     fullDesc: [
-      'Developed a GUI-based tool that receives position data from indoor GPS beacons mounted on a mobile robot to track its trajectory.',
-      'The interface supports visualization, saving, and comparison of repeated runs to evaluate trajectory repeatability.',
+      '<strong>Problem:</strong> Evaluating trajectory repeatability for a mobile robot required manually collecting, saving, and comparing GPS data across multiple runs — no dedicated tool existed.',
+      '<strong>Approach:</strong> Built a PyQt5 desktop application that receives position data from indoor GPS beacons mounted on a mobile robot, visualizes the trajectory live, and supports saving and overlaying multiple runs for repeatability comparison.',
+      '<strong>Conclusion:</strong> The tool simplified trajectory benchmarking, enabling systematic evaluation of mobile robot path repeatability across multiple experimental runs.',
     ],
     images: [],
     tags: ['Python', 'PyQt5', 'Indoor GPS'],
@@ -242,7 +252,9 @@ const projects = [
     title: 'Tweet Sentiment Analysis',
     shortDesc: 'LSTM models with Word2Vec and FastText embeddings for topic-based tweet sentiment classification.',
     fullDesc: [
-      'Built a tool to fetch tweets on a given topic, pre-process the text, and analyze sentiment using LSTM models with Word2Vec and FastText embeddings.',
+      '<strong>Problem:</strong> Understanding public sentiment on a specific topic requires collecting and classifying a large number of tweets — a time-consuming task if done manually.',
+      '<strong>Approach:</strong> Built a pipeline that fetches tweets via the Twitter API, preprocesses text (tokenization, normalization), and classifies sentiment using LSTM models trained with Word2Vec and FastText embeddings.',
+      '<strong>Conclusion:</strong> Achieved competitive sentiment classification accuracy across topic-based tweet datasets, with FastText embeddings outperforming Word2Vec on short, informal text.',
     ],
     images: [],
     tags: ['Python', 'Keras', 'NLTK', 'Gensim', 'Tweepy', 'Word2Vec', 'FastText'],
@@ -258,8 +270,9 @@ const projects = [
     title: 'Snake Robot for Rescue Operations',
     shortDesc: 'Modular snake robot with inchworm and sidewinding motions, Bluetooth controlled with a camera and gripper for confined-space navigation.',
     fullDesc: [
-      'Developed a modular snake robot capable of inchworm and sidewinding motions to navigate through confined spaces.',
-      'Controlled via Arduino Uno and Bluetooth, with a camera and gripper integrated for sensing and manipulation in rescue scenarios.',
+      '<strong>Problem:</strong> Search-and-rescue operations in confined spaces — rubble, pipes, collapsed structures — are inaccessible to conventional wheeled or legged robots.',
+      '<strong>Approach:</strong> Designed and built a modular snake robot capable of inchworm and sidewinding locomotion. Controlled via Arduino Uno over Bluetooth, with a camera for remote vision and a gripper for manipulation in rescue scenarios.',
+      '<strong>Conclusion:</strong> Demonstrated functional locomotion modes and remote-controlled operation in confined test environments, validating the design as a low-cost rescue robot prototype.',
     ],
     images: [],
     tags: ['Arduino', 'C/C++', 'Embedded Systems', 'Bluetooth', 'Mechanical Design'],
@@ -278,7 +291,9 @@ const projects = [
     title: 'Discord Bots',
     shortDesc: 'Collection of Python bots for a personal Discord server with custom features, external API integrations, and LLM tools.',
     fullDesc: [
-      'Developed multiple Python bots for a personal Discord server, implementing custom features, integrating external APIs and LLM tools to improve functionality and enhance coding skills.',
+      '<strong>Problem:</strong> A personal Discord server lacked useful automation — no tools for content management, API-driven features, or AI-assisted interactions.',
+      '<strong>Approach:</strong> Developed a collection of Python bots using discord.py, integrating external APIs (weather, media, utilities) and LLM tools for intelligent responses and task automation.',
+      '<strong>Conclusion:</strong> Active bots running on the server, regularly extended with new features as a personal project for learning and experimentation.',
     ],
     images: [],
     tags: ['Python', 'Discord.py', 'APIs', 'LLM Integration'],
@@ -334,23 +349,24 @@ function openModal(p) {
   const overlay = document.getElementById('modal-overlay');
   const content = document.getElementById('modal-content');
 
-  const gallery = p.images.length > 0
-    ? `<div class="modal-gallery">${p.images.map(src => `<img src="${src}" alt="${p.title}" />`).join('')}</div>`
-    : `<div class="modal-gallery-placeholder">${p.icon}</div>`;
-
   const links = p.links.length > 0
     ? `<div class="modal-section-label">Links</div><div class="modal-links">${p.links.map(l => `<a class="modal-link-btn" href="${l.url}" target="_blank">↗ ${l.label}</a>`).join('')}</div>`
     : '';
 
+  const descHtml = p.fullDesc.map(item =>
+    typeof item === 'string'
+      ? `<p>${item}</p>`
+      : `<figure class="modal-inline-img"><img src="${item.img}" alt="${item.caption || ''}" />${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`
+  ).join('');
+
   content.innerHTML = `
     <span class="modal-badge">${p.badge}</span>
     <div class="modal-title">${p.title}</div>
-    ${gallery}
-    <div class="modal-section-label">About</div>
-    <div class="modal-desc">${p.fullDesc.map(para => `<p>${para}</p>`).join('')}</div>
     <div class="modal-section-label">Stack</div>
     <div class="modal-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
     ${links}
+    <div class="modal-section-label">About</div>
+    <div class="modal-desc">${descHtml}</div>
   `;
 
   overlay.classList.add('open');
