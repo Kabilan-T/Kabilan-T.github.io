@@ -1,9 +1,20 @@
+// Category codes double as filter-tab values; badges are derived from them
+// below so a card's badge always matches the filter tabs it appears under.
+const categoryLabels = {
+  academic: 'Academic',
+  hbrs: 'HBRS',
+  dfki: 'DFKI',
+  stegen: 'Stegen',
+  festo: 'Festo',
+};
+
 const projects = [
   // ── Thesis ──────────────────────────────────────────────────────────────
   {
     id: 'thesis',
-    category: 'hbrs',
-    badge: 'HBRS · DFKI',
+    category: ['hbrs', 'dfki', 'academic'],
+    duration: 'May 2025 – Dec 2025',
+    location: 'Bremen, Germany',
     icon: '🦿',
     title: 'Adaptive Motion Control of Legged Robots via Predictive Force Modeling',
     shortDesc: 'LSTM-based force prediction with a phase-aware PID controller for adaptive foot placement on uneven terrain.',
@@ -28,8 +39,9 @@ const projects = [
   // ── R&D ─────────────────────────────────────────────────────────────────
   {
     id: 'rnd',
-    category: 'hbrs',
-    badge: 'HBRS · DFKI',
+    category: ['hbrs', 'dfki', 'academic'],
+    duration: 'Jun 2023 – Jan 2024',
+    location: 'Bremen, Germany',
     icon: '🧬',
     title: 'Black-Box Optimization of the Ground Interaction Model for Legged Robots',
     shortDesc: 'Evolutionary optimization of a NeuralSoil ground interaction model using only robot trajectory similarity — no terrain measurements.',
@@ -54,16 +66,17 @@ const projects = [
   // ── DFKI ─────────────────────────────────────────────────────────────────
   {
     id: 'fieldcobots',
-    category: 'dfki',
-    badge: 'DFKI',
+    category: ['dfki'],
+    duration: 'May 2025 – Present',
+    location: 'Bremen, Germany',
     icon: '🤖',
     title: 'FieldCoBots — LLM Agents for Human-Robot Coordination',
     shortDesc: 'LangGraph-based tool-calling agents embedded in an agricultural robot for natural language task coordination.',
     fullDesc: [
-      '<strong>Problem:</strong> Agricultural human-robot teams need a natural language interface for task coordination — operators should be able to instruct and query robots without programming expertise or structured command interfaces.',
-      '<strong>Approach:</strong> Developed two LangGraph tool-calling agents. The first is embedded in the robot: it receives natural language instructions, interprets them, and triggers robot actions (gripper control, operation modes) via tool calls. The second interfaces with the project\'s shared task blackboard: it converts natural language requests into structured task entries, asks for missing information when needed, posts tasks, and notifies the user of status updates. Subagents were designed to be reusable across both. Switched from local LLMs to OpenAI API after local models proved too slow for the required responsiveness.',
-      '<strong>Conclusion:</strong> The agents were integrated into the SHIVAA agricultural robot, enabling operators to coordinate with the robot using spoken or typed natural language — reducing task entry friction in mixed human-robot teams.',
+      '<strong>Project Goal:</strong> FieldCoBots tackles labor shortages in strawberry harvesting by building a hybrid human-robot team — a "Digital Field" infrastructure, autonomous picking/transport robots, and a coordination system — to reduce harvest worker burden and improve efficiency.',
       { img: 'assets/fieldcobots/infographic.png', caption: 'FieldCoBots concept — coordinated human-robot team with digital field management and shared task blackboard' },
+      '<strong>My Contribution:</strong> Responsible for LLM integration within the project\'s human-robot coordination system. Developed two LangGraph tool-calling agents: one embedded in the robot (SHIVAA) that interprets natural language instructions and triggers robot actions (gripper control, operation modes) via tool calls; another that interfaces with the shared task blackboard, converting natural language requests into structured task entries. Switched from local LLMs to OpenAI API after local models proved too slow for the required responsiveness.',
+      { img: 'assets/fieldcobots/llm_agent_ui.png', caption: 'LLM Blackboard Agent UI — voice/text conversation with the tool-calling agent, live tool-call trace, and blackboard connection status' },
     ],
     images: ['assets/fieldcobots/thumbnail.png'],
     tags: ['LangGraph', 'LangChain', 'OpenAI API', 'Python', 'Voice I/O'],
@@ -74,15 +87,15 @@ const projects = [
   },
   {
     id: 'nostrandamust',
-    category: 'dfki',
-    badge: 'DFKI',
+    category: ['dfki'],
+    duration: 'Aug 2023 – Apr 2025',
+    location: 'Bremen, Germany',
     icon: '🌍',
     title: 'NoStrandAMust — Terrain Classification via Probing Behaviors',
     shortDesc: 'Designed probing behaviors and used parameter optimizers to maximize terrain discriminability across soil, gravel, and concrete.',
     fullDesc: [
-      '<strong>Problem:</strong> A terrain classifier is only as good as the sensor data it receives — and that data quality depends on how the robot interacts with the terrain. The question: what robot behavior, with what parameters, produces the most terrain-discriminative sensor signal?',
-      '<strong>Approach:</strong> Designed probing behaviors for wheeled robots (a turn-around maneuver with a variable braking factor on one wheel, causing motion perturbations that encode terrain properties) and legged robots (a leg-scraping motion whose force response pattern reveals terrain type). Used parameter optimizers running parallel simulations across terrain types (soil, gravel, concrete) to find the parameter set maximizing difference in response between terrains. Validated on real robots across multiple experimental iterations. Also contributed to dataset preparation (log processing, timestamp alignment) and is named contributor on the published dataset.',
-      '<strong>Conclusion:</strong> Optimized probing parameters significantly improved terrain discriminability compared to arbitrary motion. Results contributed to the NoStrandAMust dataset published on Zenodo.',
+      '<strong>Project Goal:</strong> NoStrandAMust aims to enhance the autonomy, safety, and efficiency of mobile exploration robots by developing machine-learning-based ground interaction models — learned from real robots operating across different terrains — enabling adaptive path planning and real-time soil condition analysis for future space exploration missions.',
+      '<strong>My Contribution:</strong> Worked with a supervisor on designing probing behaviors that maximize terrain discriminability — a turn-around maneuver with a variable braking factor on one wheel for wheeled robots, and a leg-scraping motion for legged robots. Used parameter optimizers running parallel simulations across terrain types (soil, gravel, concrete) to find the parameter set maximizing difference in response between terrains, and validated on real robots across multiple experimental iterations. Also contributed to dataset preparation (log processing, timestamp alignment) and is named contributor on the published dataset.',
       { video: 'https://drive.google.com/file/d/10Vd0QuVeDhTWV7VudAQNanF0xvqdRcMP/preview', ratio: '1864/1170', caption: 'Parallel simulations — optimizer evaluating probing behavior parameters across terrain types simultaneously' },
     ],
     images: ['assets/nostrand/thumbnail.jpg'],
@@ -96,15 +109,15 @@ const projects = [
   },
   {
     id: 'persim',
-    category: 'dfki',
-    badge: 'DFKI',
+    category: ['dfki'],
+    duration: 'Oct 2022 – Jul 2023',
+    location: 'Bremen, Germany',
     icon: '📊',
     title: 'PerSim — Iterative Simulation-to-Real Validation with SOGPR',
     shortDesc: 'SOGPR-based active learning loop to efficiently validate simulation behavior maps on a real robot with minimal evaluations.',
     fullDesc: [
-      '<strong>Problem:</strong> Simulation-learned behavior maps (parameter set → expected performance) cannot be trusted directly on a real robot, and exhaustively testing every parameter set is infeasible. How do you efficiently validate which parts of the map transfer to reality with minimal real-robot evaluations?',
-      '<strong>Approach:</strong> Used SOGPR (Sparse Online Gaussian Process Regression) as an active learner — at each step it selects the parameter set with highest uncertainty, evaluates it on the robot, and updates the confidence model, propagating confidence to neighboring points in the parameter space. Evaluation runs via a behavior-tree loop: the robot traverses three waypoints (A→B→C), switching the active parameter set at each waypoint by selectively restarting ROCK middleware components — no full robot restart required. Developed and validated the full workflow in simulation.',
-      '<strong>Conclusion:</strong> The active learning loop reduced the number of real-robot evaluations needed to build a confident behavior map compared to random or grid sampling. Real-robot deployment was carried out by the project team using this tool.',
+      '<strong>Project Goal:</strong> PerSim develops software that builds realistic virtual environment representations for space rovers from sensor data — supporting identification of resources like water, minerals, and metals on the Moon and Mars — and lets robots learn from mission experience through internal simulation, improving autonomous navigation for future space exploration.',
+      '<strong>My Contribution:</strong> Designed an iterative validation workflow using SOGPR (Sparse Online Gaussian Process Regression) as an active learner — at each step it selects the parameter set with highest uncertainty, evaluates it on the robot, and updates the confidence model, propagating confidence to neighboring points in the parameter space. Evaluation runs via a behavior-tree loop: the robot traverses three waypoints (A→B→C), switching the active parameter set at each waypoint by selectively restarting ROCK middleware components — no full robot restart required. Developed and validated the full workflow in simulation (real-robot deployment was carried out by the project team using this tool).',
       { video: 'https://drive.google.com/file/d/1lRrSGs5BvbSA3-68xxps6PwyCwhVqp43/preview', ratio: '2496/1354', caption: 'Simulation — SOGPR active learning loop: parameter updates and confidence propagation across the behavior map' },
     ],
     images: ['assets/persim/thumbnail.jpg'],
@@ -116,15 +129,16 @@ const projects = [
   },
   {
     id: 'robdekon',
-    category: 'dfki',
-    badge: 'DFKI',
+    category: ['dfki'],
+    duration: 'Apr 2022 – Sep 2022',
+    location: 'Bremen, Germany',
     icon: '🦾',
     title: 'ROBDEKON — Behavior Trees for Hazardous Environment Robotics',
     shortDesc: 'Wrapped ROS nodes as behavior tree nodes and built navigation and arm control subtrees for a decontamination robot.',
     fullDesc: [
-      '<strong>Problem:</strong> Programming complex navigation and manipulation missions for a decontamination robot requires deep ROS expertise. The goal: abstract the underlying stack into composable, reusable behavior tree nodes that can be combined via GUI without modifying robot code.',
-      '<strong>Approach:</strong> Wrapped ROS nodes as BehaviorTree.CPP nodes and built complete subtrees — a navigation subtree (path planning node + path execution node) and an arm subtree (MoveIt trajectory planning + execution). The resulting nodes hide the ROS stack; missions are composed by connecting nodes in the BT GUI, with per-node success/failure visible at runtime. Also set up Gazebo simulation environments for development and testing. ARTER is a four-wheeled platform with flexible wheel shafts and a robot arm, used for decontamination tasks in hazardous environments.',
-      '<strong>Conclusion:</strong> Delivered a library of BT nodes and subtrees enabling the ROBDEKON team to compose and monitor missions via GUI without touching the underlying ROS code.',
+      '<strong>Project Goal:</strong> ROBDEKON develops autonomous and semi-autonomous robotic systems for hazardous decontamination and decommissioning tasks, enabling safe human-robot collaboration — through both direct cooperation and teleoperation — as hybrid teams in contaminated industrial facilities.',
+      '<strong>My Contribution:</strong> Wrapped ROS nodes as BehaviorTree.CPP nodes and built complete subtrees for ARTER, a four-wheeled decontamination platform with flexible wheel shafts and a robot arm — a navigation subtree (path planning node + path execution node) and an arm subtree (MoveIt trajectory planning + execution). The resulting nodes hide the ROS stack; missions are composed by connecting nodes in the BT GUI, with per-node success/failure visible at runtime. Also set up Gazebo simulation environments for development and testing.',
+      { img: 'assets/robdekon/behavior_tree.png', caption: 'Mission behavior tree — main sequence dispatches guarded tasks via the Task subtree, which falls back to planning and execution through PlanExec' },
     ],
     images: ['assets/robdekon/thumbnail.jpg'],
     tags: ['ROS', 'BehaviorTree.CPP', 'MoveIt', 'C++', 'Python', 'Gazebo'],
@@ -135,15 +149,15 @@ const projects = [
   },
   {
     id: 'corobx',
-    category: 'dfki',
-    badge: 'DFKI',
+    category: ['dfki'],
+    duration: 'Nov 2021 – Mar 2022',
+    location: 'Bremen, Germany',
     icon: '🪐',
     title: 'CoRob-X — State Machine for Planetary Exploration Robot',
     shortDesc: 'Implemented a mission state machine for a rappelling robot descending into a crater skylight in a multi-robot planetary mission.',
     fullDesc: [
-      '<strong>Problem:</strong> In a multi-robot planetary exploration scenario, a rappelling robot must execute a complex mission sequence — approach, transition to rappel mode, active descent, landing — each phase with different speed limits and configuration requirements.',
-      '<strong>Approach:</strong> Implemented a state machine for the rappelling robot (Coyote III) covering all mission phases with phase-specific configurations such as reduced descent speed. Assisted with simulation setup and testing. This was the first project at DFKI (~4–5 months), providing foundational experience with the ROS/ROCK development environment.',
-      '<strong>Conclusion:</strong> The state machine was integrated into the Coyote III robot and demonstrated in simulation as part of the CoRob-X multi-robot planetary exploration scenario alongside the surface robot SherpaTT.',
+      '<strong>Project Goal:</strong> CoRob-X develops an Advanced Robotic Exploration System enabling multi-robot teams to access hard-to-reach planetary areas — advancing locomotion, perception, localization, and decision-making for autonomous cooperation — targeting lunar lava tube exploration through an analog mission in the Canary Islands.',
+      '<strong>My Contribution:</strong> Implemented a state machine for the rappelling robot (Coyote III) covering all mission phases — approaching the crater, transition to rappel mode, active descent, reaching the ground — each with phase-specific configurations such as reduced descent speed. Assisted with simulation setup and testing. This was the first project at DFKI (~4–5 months), providing foundational experience with the ROS/ROCK development environment.',
       { video: 'https://drive.google.com/file/d/1IE-43-MvhJJk9w-EfEGsqIy6N98p86tk/preview', ratio: '1562/944', caption: 'Simulation — Coyote III tethered descent into crater skylight, executing the mission state machine phases' },
     ],
     images: ['assets/corobx/thumbnail.jpg'],
@@ -158,17 +172,19 @@ const projects = [
   // ── Stegen ───────────────────────────────────────────────────────────────
   {
     id: 'stegen',
-    category: 'stegen',
-    badge: 'Stegen Technology',
+    category: ['stegen'],
+    duration: 'Apr 2026 – Present',
+    location: 'Bremen, Germany',
     icon: '✈️',
     title: 'UAV Software Platform',
     shortDesc: 'Motion tracking, geofencing, and a simulation-based safety monitor for a drone platform at a robotics startup.',
     fullDesc: [
       '<strong>Problem:</strong> A robotics startup needed software for their UAV platform to enable safe, monitored operation — position tracking, operational boundary enforcement, and a way to validate flight scripts without risking the drone.',
       '<strong>Approach:</strong> As sole software developer, implemented Vicon motion capture-based position tracking on a Raspberry Pi flight stack for precise indoor feedback. Developed geofencing to enforce operational boundaries. Building a simulation / digital twin to validate scripts before deployment, with a safety monitor layer that can intervene to prevent unsafe maneuvers. Drones run existing flight controllers; all software sits on top of the flight stack.',
+      { video: 'https://drive.google.com/file/d/1PENmI7xMuvOrq8H5OyLg0Osvz5LW5-fj/preview', ratio: '1920/1080', caption: 'Gazebo + ArduPilot SITL simulation — waypoint navigation script arming and flying the drone within the RViz geofence, alongside the satellite map view' },
       '<strong>Conclusion:</strong> Delivered a modular software stack enabling monitored drone operation with real-time position awareness and boundary enforcement, reducing risk during early-stage flight testing.',
     ],
-    images: [],
+    images: ['assets/stegen/thumbnail.png'],
     tags: ['Python', 'Raspberry Pi', 'Vicon', 'ROS', 'Simulation'],
     links: [],
   },
@@ -176,8 +192,9 @@ const projects = [
   // ── Festo ────────────────────────────────────────────────────────────────
   {
     id: 'festo',
-    category: 'festo',
-    badge: 'Festo',
+    category: ['festo'],
+    duration: 'Jan 2019 – Mar 2019',
+    location: 'Bangalore, India',
     icon: '⚙️',
     title: 'PLC/HMI for CAD-to-G-code Cartesian Robot',
     shortDesc: 'PLC software module with HMI to convert CAD files into G-code tool paths for automated execution on a three-axis Cartesian robot.',
@@ -187,7 +204,7 @@ const projects = [
       '<strong>Conclusion:</strong> Delivered a working PLC/HMI system enabling CAD-to-motion automation on the Cartesian robot.',
       { video: 'https://drive.google.com/file/d/1OuBqCLsnA2asx56dQH-sYA42_RHz9PFG/preview', caption: 'Demo — CAD-to-G-code execution on the three-axis Cartesian robot' },
     ],
-    images: [],
+    images: ['assets/festo/thumbnail.jpg'],
     tags: ['CODESYS', 'Structured Text (ST)', 'PLC', 'HMI', 'G-code'],
     links: [
       { label: 'Project Report', url: 'https://drive.google.com/file/d/1g-Yob4OHI7EHkVE982foIIkbo5Sf4vwP/view' },
@@ -195,37 +212,23 @@ const projects = [
     ],
   },
 
-  // ── Pixtech ───────────────────────────────────────────────────────────────
-  {
-    id: 'pixtech',
-    category: 'pixtech',
-    badge: 'Pixtech Labs',
-    icon: '🔭',
-    title: 'Machine Vision Solutions for Manufacturing',
-    shortDesc: 'Delivered 2D/3D machine vision systems for part inspection, identification, dimensional measurement, and robot guidance across manufacturing industries.',
-    fullDesc: [
-      'Delivered machine vision solutions using 2D and 3D vision systems across diverse manufacturing industries, covering applications in part inspection, identification, dimensional measurement, and robot guidance.',
-      'Handled the full project lifecycle from solution design through on-site installation, system integration, and post-deployment support.',
-    ],
-    images: [],
-    tags: ['COGNEX', 'Machine Vision', 'Industrial Automation', 'System Integration'],
-    links: [],
-  },
-
   // ── Academic ──────────────────────────────────────────────────────────────
   {
     id: 'spore',
-    category: 'academic',
-    badge: 'Academic Project',
+    category: ['hbrs', 'academic'],
+    duration: 'Oct 2021 – Jan 2022',
+    location: 'Bonn, Germany',
     icon: '🔬',
     title: 'Spore Recognition in Microscopic Digital Images',
     shortDesc: 'Two-stage pipeline using blob detection for localization and a CNN for four-class microbial classification.',
     fullDesc: [
       '<strong>Problem:</strong> Manual spore counting in microscopic images is tedious and error-prone. The challenge: detect individual spores in cluttered microscope images and classify them by microbial type.',
       '<strong>Approach:</strong> Two-stage pipeline — blob detection for spore localization, followed by a CNN trained on detected regions for four-class microbial classification.',
+      { img: 'assets/spore/blob_detection.jpg', caption: 'Determinant of Hessian (DoH) blob detection — localizing candidate spore regions in the microscope image' },
+      { img: 'assets/spore/cropped_padded_spores.jpg', caption: 'Detected regions cropped, binarized, and padded before classification — shown for two different microbial spore types' },
       '<strong>Conclusion:</strong> The pipeline automated spore detection and classification, reducing the need for manual microscopy review across four microbial classes.',
     ],
-    images: [],
+    images: ['assets/spore/thumbnail.jpg'],
     tags: ['Python', 'OpenCV', 'TensorFlow', 'Blob Detection', 'CNN'],
     links: [
       { label: 'Project Report', url: 'https://drive.google.com/file/d/1vTfAOxfWjRQL2lwwcMnqC1RH8FA-zOAc/view' },
@@ -233,8 +236,9 @@ const projects = [
   },
   {
     id: 'trajectory-gui',
-    category: 'academic',
-    badge: 'Academic Project',
+    category: ['hbrs', 'academic'],
+    duration: 'May 2021 – Aug 2021',
+    location: 'Bonn, Germany',
     icon: '📍',
     title: 'GUI for Trajectory Benchmarking with Indoor GPS',
     shortDesc: 'Desktop tool for tracking, visualizing, and comparing mobile robot trajectories using indoor GPS beacons.',
@@ -251,10 +255,10 @@ const projects = [
       { label: 'Repository', url: 'https://github.com/Kabilan-T/GUI_for_Trajectory_Benchmarking_with_Indoor_GPS' },
     ],
   },
+  /*
   {
     id: 'sentiment',
-    category: 'academic',
-    badge: 'Academic Project',
+    category: ['hbrs', 'academic'],
     icon: '💬',
     title: 'Tweet Sentiment Analysis',
     shortDesc: 'LSTM models with Word2Vec and FastText embeddings for topic-based tweet sentiment classification.',
@@ -269,10 +273,12 @@ const projects = [
       { label: 'Presentation', url: 'https://drive.google.com/file/d/14lK7ob9VuOvDR203nMSL8E0Ou7xkpO8R/view' },
     ],
   },
+  */
   {
     id: 'snake-robot',
-    category: 'academic',
-    badge: 'Academic Project',
+    category: ['academic'],
+    duration: 'Jun 2018 – Nov 2018',
+    location: 'Erode, India',
     icon: '🐍',
     title: 'Snake Robot for Rescue Operations',
     shortDesc: 'Modular snake robot with inchworm and sidewinding motions, Bluetooth controlled with a camera and gripper for confined-space navigation.',
@@ -282,7 +288,7 @@ const projects = [
       '<strong>Conclusion:</strong> Demonstrated functional locomotion modes and remote-controlled operation in confined test environments, validating the design as a low-cost rescue robot prototype.',
       { video: 'https://drive.google.com/file/d/1DlqQKp5wM7AEHyRcJIS1NxDxvsJ48NR1/preview', ratio: '1920/1080', caption: 'Demo — inchworm and sidewinding locomotion modes, Bluetooth-controlled with camera and gripper' },
     ],
-    images: [],
+    images: ['assets/snake-robot/thumbnail.png'],
     tags: ['Arduino', 'C/C++', 'Embedded Systems', 'Bluetooth', 'Mechanical Design'],
     links: [
       { label: 'Project Report', url: 'https://drive.google.com/file/d/1DmEJvWWk7AEHyRcJIS1NxDxvsJ48NR1/view' },
@@ -293,17 +299,15 @@ const projects = [
   // ── Personal ──────────────────────────────────────────────────────────────
   {
     id: 'discord-bots',
-    category: 'personal',
-    badge: 'Personal Project',
+    category: [],
     icon: '🎮',
     title: 'Discord Bots',
     shortDesc: 'Collection of Python bots for a personal Discord server with custom features, external API integrations, and LLM tools.',
     fullDesc: [
-      '<strong>Problem:</strong> A personal Discord server lacked useful automation — no tools for content management, API-driven features, or AI-assisted interactions.',
-      '<strong>Approach:</strong> Developed a collection of Python bots using discord.py, integrating external APIs (weather, media, utilities) and LLM tools for intelligent responses and task automation.',
-      '<strong>Conclusion:</strong> Active bots running on the server, regularly extended with new features as a personal project for learning and experimentation.',
+      'A personal project for a WALL-E-themed Discord server ("Axiom") — four modular Python bots built with discord.py, each named after a WALL-E character: <strong>AUTO</strong> handles server administration — moderation tools, role management, welcomes, and daily highlights; <strong>EVE</strong> drives community engagement through voice interactions, watchlist management for movies/shows, and meme collection; <strong>M-O</strong> manages voice-channel radio streaming and fetches Instagram content from posted links; <strong>GO-4</strong> provides conversational AI via LLMs, daily Thirukkural postings in Tamil and English, and pop-culture commands.',
+      'Managed via Miniconda virtual environments with automated setup and run scripts. Active bots running on the server, regularly extended with new features as a personal project for learning and experimentation.',
     ],
-    images: [],
+    images: ['assets/discord/thumbnail.png'],
     tags: ['Python', 'Discord.py', 'APIs', 'LLM Integration'],
     links: [
       { label: 'Repository', url: 'https://github.com/Kabilan-T/discord_bots' },
@@ -311,23 +315,48 @@ const projects = [
   },
 ];
 
+projects.forEach(p => {
+  p.badge = p.category.map(c => categoryLabels[c]).join(' · ');
+});
+
 // ── Render Cards ─────────────────────────────────────────────────────────────
+// Divider labels shown (in "All" view only) right after the given project id,
+// naming the group of cards that follows.
+const groupDividers = {
+  rnd: 'DFKI Research Contributions',
+  corobx: 'Other Professional Projects',
+  festo: 'Other Academic Projects',
+  'snake-robot': 'Personal Projects',
+};
+
 function renderCards() {
   const grid = document.getElementById('project-grid');
   grid.innerHTML = '';
+
+  const firstDivider = document.createElement('div');
+  firstDivider.className = 'group-divider';
+  firstDivider.innerHTML = `<span class="group-divider-label">Master's Projects</span>`;
+  grid.appendChild(firstDivider);
+
   projects.forEach(p => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.dataset.category = p.category;
+    card.dataset.category = p.category.join(' ');
 
     const thumb = p.images.length > 0
       ? `<img class="card-thumb" src="${p.images[0]}" alt="${p.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" /><div class="card-thumb-placeholder" style="display:none">${p.icon}</div>`
       : `<div class="card-thumb-placeholder">${p.icon}</div>`;
 
+    const badgeHtml = p.badge ? `<span class="card-badge">${p.badge}</span>` : '';
+    const metaHtml = (p.duration || p.location)
+      ? `<div class="card-meta">${[p.duration, p.location].filter(Boolean).join(' · ')}</div>`
+      : '';
+
     card.innerHTML = `
       ${thumb}
       <div class="card-body">
-        <span class="card-badge">${p.badge}</span>
+        ${badgeHtml}
+        ${metaHtml}
         <div class="card-title">${p.title}</div>
         <div class="card-desc">${p.shortDesc}</div>
         <div class="card-tags">${p.tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}</div>
@@ -335,6 +364,13 @@ function renderCards() {
     `;
     card.addEventListener('click', () => openModal(p));
     grid.appendChild(card);
+
+    if (groupDividers[p.id]) {
+      const divider = document.createElement('div');
+      divider.className = 'group-divider';
+      divider.innerHTML = `<span class="group-divider-label">${groupDividers[p.id]}</span>`;
+      grid.appendChild(divider);
+    }
   });
 }
 
@@ -346,7 +382,11 @@ function initFilter() {
       btn.classList.add('active');
       const filter = btn.dataset.filter;
       document.querySelectorAll('.card').forEach(card => {
-        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+        const categories = card.dataset.category.split(' ');
+        card.classList.toggle('hidden', filter !== 'all' && !categories.includes(filter));
+      });
+      document.querySelectorAll('.group-divider').forEach(divider => {
+        divider.classList.toggle('hidden', filter !== 'all');
       });
     });
   });
@@ -367,8 +407,14 @@ function openModal(p) {
     return `<figure class="modal-inline-img"><img src="${item.img}" alt="${item.caption || ''}" />${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
   }).join('');
 
+  const badgeHtml = p.badge ? `<span class="modal-badge">${p.badge}</span>` : '';
+  const metaHtml = (p.duration || p.location)
+    ? `<div class="modal-meta">${[p.duration, p.location].filter(Boolean).join(' · ')}</div>`
+    : '';
+
   content.innerHTML = `
-    <span class="modal-badge">${p.badge}</span>
+    ${badgeHtml}
+    ${metaHtml}
     <div class="modal-title">${p.title}</div>
     <div class="modal-section-label">Stack</div>
     <div class="modal-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
