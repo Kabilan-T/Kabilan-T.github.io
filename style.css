@@ -345,6 +345,14 @@ a:hover { text-decoration: underline; }
   border-radius: 4px;
   border: 1px solid var(--border);
 }
+a.tag {
+  text-decoration: none;
+  cursor: pointer;
+}
+a.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 /* ── Modal ── */
 .modal-overlay {
