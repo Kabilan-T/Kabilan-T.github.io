@@ -296,6 +296,25 @@ const projects = [
 
   // ── Personal ──────────────────────────────────────────────────────────────
   {
+    id: 'myaarukalbot',
+    category: [],
+    icon: '🦿',
+    title: 'MyAarukalBot: Hexapod Navigation Stack',
+    shortDesc: 'Full ROS2 navigation stack for a simulated six-legged robot: custom gait engine, sensor-fused odometry, SLAM, and autonomous navigation.',
+    fullDesc: [
+      'A personal project to build a complete <strong>ROS2</strong> navigation stack for a six-legged robot ("aarukal" is Tamil for "six legs"), simulated in <strong>Gazebo</strong> with an Intel RealSense D435i RGB-D camera, an IMU, and force/torque sensors on all six feet. Built up in stages, each depending on the last: a kinematic model, a gait engine, sensor-fused odometry, SLAM, and finally autonomous navigation on top of all of it.',
+      { img: 'assets/052_myaarukalbot/leg_kinematics.png', caption: 'Kinematics check: the Leg Movement Check panel setting per-leg X/Y/Z targets, next to the live model in RViz' },
+      'A custom <strong>gait engine</strong> converts a commanded body velocity into leg motion through four gaits (tripod, wave, ripple, idle standing), solving inverse kinematics for all 18 joints at each cycle. Since the stock EKF in <strong>robot_localization</strong> diverged to NaN during validation, wrote a custom <strong>Extended Kalman Filter</strong> from scratch to fuse leg-kinematic odometry, visual odometry, and IMU orientation into a single pose and velocity estimate. <strong>RTAB-Map</strong> builds an occupancy grid and point-cloud map from the fused odometry and the RGB-D stream, in either mapping or localization-only mode, and <strong>Nav2</strong> plans and executes paths on top of that map, with the local costmap driven directly by the depth point cloud.',
+      { img: 'assets/052_myaarukalbot/locomotion_control.png', caption: 'Manual locomotion: the control panel driving the robot through Gazebo with a directional pad and gait selector' },
+      { img: 'assets/052_myaarukalbot/autonomous_navigation.png', caption: 'Autonomous navigation: Gazebo and RViz side by side, planning and executing a path to a clicked goal using the built map' },
+    ],
+    images: ['assets/052_myaarukalbot/thumbnail.png'],
+    tags: ['ROS2', 'Gazebo', 'Nav2', 'RTAB-Map', 'Extended Kalman Filter', 'Python', 'C++'],
+    links: [
+      { label: 'Repository', url: 'https://github.com/Kabilan-T/MyAarukalBot' },
+    ],
+  },
+  {
     id: 'discord-bots',
     category: [],
     icon: '🎮',
