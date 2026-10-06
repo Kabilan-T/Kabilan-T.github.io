@@ -183,13 +183,15 @@ const projects = [
     location: 'Bremen, Germany',
     icon: '✈️',
     title: 'UAV Software Development',
-    shortDesc: 'Motion tracking, geofencing, and a simulation-based safety monitor for a drone platform at a robotics startup.',
+    shortDesc: 'Motion tracking, geofencing, and depth-camera mapping for a drone platform at a robotics startup.',
     fullDesc: [
-      'Developing software components for a UAV platform, running on the drone\'s onboard Raspberry Pi on top of its existing flight controller. Implemented a <strong>Vicon-based motion capture system</strong> for precise indoor tracking of the drone, and developed <strong>geofencing</strong> to enforce operational boundaries. Currently building a <strong>simulation / digital twin</strong> (Gazebo with ArduPilot SITL) to validate flight scripts before deploying them to the real drone.',
-      { video: 'https://drive.google.com/file/d/1PENmI7xMuvOrq8H5OyLg0Osvz5LW5-fj/preview', ratio: '1920/1080', caption: 'Gazebo + ArduPilot SITL simulation: waypoint navigation script arming and flying the drone within the RViz geofence, alongside the satellite map view' },
+      'Developing software components for a UAV platform, running on the drone\'s onboard Raspberry Pi on top of its existing flight controller. Implemented a <strong>Vicon-based motion capture system</strong> for precise indoor tracking of the drone, and developed <strong>geofencing</strong> (a 3D boundary with a warning margin, live status and RViz visualization) to enforce operational boundaries. Built a <strong>simulation / digital twin</strong> (Gazebo with ArduPilot SITL) to validate flight scripts before deploying them to the real drone, and wrote <strong>autonomous flight scripts</strong> (arming and waypoint navigation through MAVROS) that keep the drone inside the geofence. Developed a <strong>depth map builder</strong> that fuses the onboard depth camera (Intel RealSense) with the Vicon pose into a 3D voxel map with a confidence value per voxel; it runs on the Raspberry Pi, saves the map on its own and streams it to RViz on the operator laptop. The whole onboard stack (pose, geofence, depth camera, mapping, rosbag recording) starts with one launch file.',
+      { video: 'https://drive.google.com/file/d/1w-MQECXEJZUmXnPcQqZu2H4vmO0j0UiJ/preview', ratio: '1280/1440', caption: 'Indoor flight: annotated drone camera view with the geofence border and distance to the fence (top), and the live depth map with the drone and the geofence in RViz (bottom)' },
+      { img: 'assets/031_uav_stegen/map_overview.png', caption: 'Depth map built from the flight, with the flight path coloured by geofence state (purple: safe, magenta: close to the fence); map colour shows height' },
+      { img: 'assets/031_uav_stegen/map_top_down.png', caption: 'Top-down view of the finished map with the geofence outline and the flight path' },
     ],
     images: ['assets/031_uav_stegen/thumbnail.png'],
-    tags: ['Python', 'ROS2', 'MAVROS', 'Raspberry Pi', 'Vicon', 'Gazebo', 'OpenSCAD', 'Simulation'],
+    tags: ['Python', 'ROS2', 'MAVROS', 'Raspberry Pi', 'Vicon', 'Depth Mapping', 'Gazebo', 'OpenSCAD', 'Simulation'],
     links: [],
   },
 
@@ -424,7 +426,7 @@ function openModal(p) {
 
   const descHtml = p.fullDesc.map(item => {
     if (typeof item === 'string') return `<p>${item}</p>`;
-    if (item.video) return `<figure class="modal-inline-video"><iframe src="${item.video}" style="aspect-ratio:${item.ratio || '1360/696'}" allow="autoplay" allowfullscreen></iframe>${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
+    if (item.video) return `<figure class="modal-inline-video"><iframe src="${item.video}" style="aspect-ratio:${item.ratio || '1360/696'}${item.maxWidth ? `;max-width:${item.maxWidth};margin:0 auto` : ''}" allow="autoplay" allowfullscreen></iframe>${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
     return `<figure class="modal-inline-img"><img src="${item.img}" alt="${item.caption || ''}" />${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}</figure>`;
   }).join('');
 
